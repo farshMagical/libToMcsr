@@ -49,7 +49,6 @@ void Parser::parseProperties(std::ifstream& file){
     setDefaultProperties();
     std::string tmp;
     while (file >> tmp){
-
         if(tmp[0] == '/'){ // u can comment useless strings
             getline(file,tmp);
             continue;
@@ -59,7 +58,7 @@ void Parser::parseProperties(std::ifstream& file){
             file >> cp;
             settings.at(tmp).stringValue = new char[tmp.size()];
             strcpy(settings.at(tmp).stringValue, cp.c_str());
-            file >> settings.at(tmp).stringValue;
+            // file >> settings.at(tmp).stringValue;
         }
         else if (tmp == "Vcoef"){
             file >> settings.at(tmp).boolValue;

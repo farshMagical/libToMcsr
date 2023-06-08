@@ -18,7 +18,8 @@ tdms::TDMSWriter *wr;
 Parser *parser;
 const std::string resultPath = "/usr/local/T15result";
 std::vector<std::string> groupOfMcsr;
-std::vector<uint16_t> dataOfMcsr;
+std::vector<float> dataOfMcsr;
+// std::vector<uint16_t> dataOfMcsr;
 bool valid = true;
 
 float Coef;
@@ -69,7 +70,8 @@ sres_result_t sres_func_init(const void* _InitData, void** _Context)
 	for (const auto& mcsr : groupOfMcsr){
 		for (int i=0; i<64; i++){
 			std::string ch = std::to_string(i);
-			wr->AddChannelInGroup(mcsr, ch, tdsTypeSingleFloat, 0);
+			wr->AddChannelInGroup(mcsr, ch, tdsTypeSingleFloat, 1);
+			// wr->AddChannelInGroup(mcsr, ch, tdsTypeU16, 1);
 			wr->CreateChannelProperty(mcsr, ch, "DEVICE", tdsTypeString, std::string(parser->settings.at("DEVICE").stringValue));
 			wr->CreateChannelProperty(mcsr, ch, "CNAME", tdsTypeString, std::string(parser->settings.at("CNAME").stringValue + ch));
 			wr->CreateChannelProperty(mcsr, ch, "Shot", tdsTypeDoubleFloat, parser->settings.at("Shot").doubleValue);
@@ -105,6 +107,7 @@ sres_result_t sres_func_data(size_t _SeqNo, sres_stamp_t _Stamp,
 	
 	for(int i=0; i<dataOfMcsr.size(); i++){
 		dataOfMcsr[i] = Coef * _Samples[i]; 
+		// dataOfMcsr[i] = _Samples[i]; 
 	}
 
 	wr->GenerateRawData();
@@ -130,7 +133,7 @@ std::string getStringTime(){
 	time_t t = time(0);   // get time now
     struct tm * now = localtime( & t );
     char buffer [80];
-    strftime (buffer,80,"tdms_%Y.%m.%d_%H:%M:%S",now);
+    strftime (buffer,80,"tdms_%Y.%m.%d_%H.%M.%S",now);
     return std::string(buffer);
 }
 
