@@ -1,0 +1,16 @@
+// Файл конфигурации для пользовательской функции для записи данных в tdms формате 
+DEVICE T15
+CNAME Ch.
+Shot 123
+Start_delay 0
+FW 0
+T4_delay 0
+Duration 0
+Gain 1
+Offset 0
+Vcoef 1
+Acoef 1
+Aconst 0
+RATE 2000000
+Uref 4.096
+Dig 16 
