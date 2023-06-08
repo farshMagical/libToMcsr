@@ -2,7 +2,7 @@ INCLUDE_DIRS = .
 INCLUDES=$(foreach inc,$(INCLUDE_DIRS),-I$(inc))
 
 librtc.so: sresrtc.o parser.o
-	g++ -Wl,-soname,librtc.so $< -shared -o $@
+	g++ -Wl,-soname,librtc.so $^ -L./ -ltdmsWriterModule -shared -o $@
 	rm *.o
 
 sresrtc.o: sresrtc.cpp 
