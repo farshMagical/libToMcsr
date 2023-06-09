@@ -69,7 +69,8 @@ sres_result_t sres_func_init(const void* _InitData, void** _Context)
 	int cnt = 0;
 	for (const auto& mcsr : groupOfMcsr){
 		for (int i=0; i<64; i++){
-			std::string ch = std::to_string(i);
+			std::string ch = mcsr + std::to_string(i);
+			std::string mcsr = "MCSR";
 			wr->AddChannelInGroup(mcsr, ch, tdsTypeSingleFloat, 1);
 			// wr->AddChannelInGroup(mcsr, ch, tdsTypeU16, 1);
 			wr->CreateChannelProperty(mcsr, ch, "DEVICE", tdsTypeString, std::string(parser->settings.at("DEVICE").stringValue));
