@@ -18,6 +18,8 @@ public:
     bool Parse(const std::string& path);
     bool IsMcsr1();
     bool IsMcsr2();
+    std::string GetResultPath();
+    size_t GetFrameSize();
     std::unordered_map<std::string, SettingValue> settings;
 private:
     bool openFile(std::ifstream& file, const std::string& path);
@@ -26,6 +28,8 @@ private:
     void setDefaultProperties();
 
 private:
+    std::string resultPath;
+    size_t frameSize;
     bool Mcsr1Is = false;
     bool Mcsr2Is = false;
 };

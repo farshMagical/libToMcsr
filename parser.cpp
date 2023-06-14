@@ -6,6 +6,7 @@
 
 bool Parser::Parse(const std::string& path){
     std::ifstream file;
+    resultPath = "/usr/local/T15result";
     if (!openFile(file,path)){
         return false;
     }
@@ -28,7 +29,7 @@ void Parser::parseConfig(std::ifstream& file){
             continue;
         }
         else if (tmp == "work_mode"){
-            file >> tmp;
+            file >> tmp; // get =
             int mcsr;
             file >> mcsr;
             if(mcsr == 1){
@@ -41,6 +42,14 @@ void Parser::parseConfig(std::ifstream& file){
                Mcsr1Is = true; 
                Mcsr2Is = true; 
             }
+        }
+        else if (tmp == "resultplace"){
+            file >> tmp; // get =
+            file >> resultPath;
+        }
+        else if (tmp == "frame_data_size"){
+            file >> tmp; // get =
+            file >> frameSize;
         }
     }
 }
@@ -73,8 +82,13 @@ void Parser::parseProperties(std::ifstream& file){
 }
 
 void Parser::setDefaultProperties(){
-    settings["DEVICE"].stringValue = std::string("T15").data();
-    settings["CNAME"].stringValue = std::string("Ch.").data();
+    std::string t15 = "T15";
+    settings["DEVICE"].stringValue = new char[t15.size()];
+    strcpy(settings.at("DEVICE").stringValue, t15.c_str());
+    std::string ch = "Ch.";
+    settings["CNAME"].stringValue = new char[ch.size()];
+    strcpy(settings.at("DEVICE").stringValue, ch.c_str());
+ 
     settings["Shot"].doubleValue = double(123);
     // settings["Date"].
     settings["Start_delay"].doubleValue = double(0);
@@ -107,4 +121,10 @@ bool Parser::IsMcsr1(){
 }
 bool Parser::IsMcsr2(){
     return Mcsr2Is;
+}
+std::string Parser::GetResultPath(){
+    return resultPath;
+}
+inline size_t Parser::GetFrameSize(){
+    return frameSize;
 }
